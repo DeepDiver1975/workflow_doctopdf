@@ -21,7 +21,8 @@
 
 namespace OCA\Workflow_DocToPdf;
 
-use OCA\Workflow\Engine\Event\FileAction;
+use OCA\Workflow\PublicAPI\Event\CollectTypesInterface;
+use OCA\Workflow\PublicAPI\Event\FileActionInterface;
 use OCP\BackgroundJob\IJobList;
 
 class ConverterPlugin {
@@ -39,14 +40,21 @@ class ConverterPlugin {
 	}
 
 	/**
-	 * @param FileAction $event
+	 * @param FileActionInterface $event
 	 */
-	public function listen(FileAction $event) {
+	public function listen(FileActionInterface $event) {
 		$flow = $event->getFlow();
 		if ($flow->getType() !== 'workflow_doctopdf') {
 			return;
 		}
 
 		$this->jobList->add('OCA\Workflow_DocToPdf\BackgroundJob', $event->getPath());
+	}
+
+	/**
+	 * @param CollectTypesInterface $event
+	 */
+	public function collectTypes(CollectTypesInterface $event) {
+		$event->addType('workflow_doctopdf', 'Doc to Pdf Convertor');
 	}
 }
