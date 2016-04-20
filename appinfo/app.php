@@ -41,3 +41,7 @@ use OCA\Workflow\Engine\Plugin;
 	$plugin = $app->getContainer()->query('OCA\Workflow_DocToPdf\ConverterPlugin');
 	$plugin->collectTypes($event);
 });
+
+\OC::$server->getEventDispatcher()->addListener('OC\Settings\Admin::loadAdditionalScripts', function() {
+	\OCP\Util::addScript('workflow_doctopdf', 'converterplugin');
+});
