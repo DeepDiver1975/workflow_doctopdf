@@ -19,23 +19,24 @@
  *
  */
 
-use OCA\Workflow\Engine\Plugin;
+use OCA\Workflow\PublicAPI\Event\CollectTypesInterface;
+use OCA\Workflow\PublicAPI\Event\FileActionInterface;
 
-\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . Plugin::FILE_CREATE, function(\OCA\Workflow\Engine\Event\FileAction $event) {
+\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . FileActionInterface::FILE_CREATE, function(FileActionInterface $event) {
 	$app = new \OCP\AppFramework\App('workflow_doctopdf');
 	/** @var \OCA\Workflow_DocToPdf\ConverterPlugin $plugin */
 	$plugin = $app->getContainer()->query('OCA\Workflow_DocToPdf\ConverterPlugin');
 	$plugin->listen($event);
 });
 
-\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . Plugin::FILE_UPDATE, function(\OCA\Workflow\Engine\Event\FileAction $event) {
+\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . FileActionInterface::FILE_UPDATE, function(FileActionInterface $event) {
 	$app = new \OCP\AppFramework\App('workflow_doctopdf');
 	/** @var \OCA\Workflow_DocToPdf\ConverterPlugin $plugin */
 	$plugin = $app->getContainer()->query('OCA\Workflow_DocToPdf\ConverterPlugin');
 	$plugin->listen($event);
 });
 
-\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . Plugin::TYPES_COLLECT, function(\OCA\Workflow\PublicAPI\Event\CollectTypesInterface $event) {
+\OC::$server->getEventDispatcher()->addListener('OCA\Workflow\Engine::' . CollectTypesInterface::TYPES_COLLECT, function(CollectTypesInterface $event) {
 	$app = new \OCP\AppFramework\App('workflow_doctopdf');
 	/** @var \OCA\Workflow_DocToPdf\ConverterPlugin $plugin */
 	$plugin = $app->getContainer()->query('OCA\Workflow_DocToPdf\ConverterPlugin');
